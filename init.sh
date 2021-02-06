@@ -1,5 +1,15 @@
 #!/bin/bash
 
+echo "Creating Dockerfile from template..."
+REPO_DIR=$(cd $(dirname $0); pwd)                          # get directory including this script
+cd $REPO_DIR                                               # move to the directory
+eval "echo \"`cat ./Dockerfile.template`\"" > ./Dockerfile # create Dockerfile with this repo url
+echo "Dockerfile:"
+echo "----"
+cat ./Dockerfile | sed -E "s/^([^ ]+)/\x1b[38;5;6m\1\x1b[0m/g"
+echo "----"
+cd - > /dev/null                                           # move back to the previous directory
+
 echo "Defining variables..."
 export RESOURCE_GROUP_NAME=mslearn-gh-pipelines-$RANDOM
 export AKS_NAME=contoso-video
